@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE="/etc/rm-blacklist.conf"
+CONFIG_FILE="/etc/safe-rm/rm-blacklist.conf"
 LOG_FILE="/var/log/safe-rm.log"
 
 # Directories where "rm *" is forbidden
