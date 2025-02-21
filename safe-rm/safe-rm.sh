@@ -39,16 +39,22 @@ is_protected_directory() {
 # Check if user is trying to run "rm *" in a critical directory
 if [[ "$#" -eq 1 && "$1" == "*" ]]; then
     current_dir=$(pwd)
-    if is_protected_directory "$current_dir"; then
+    if [[ is_protected_directory "$current_dir" ]]; then
         echo "Error: Attempt to delete everything in a protected system directory ($current_dir) is blocked!" >&2
         echo "$(date) - BLOCKED: rm * in $current_dir" >> "$LOG_FILE"
         exit 1
     fi
 fi
 
+if [[ is_protected_directory "$file" ]]; then
+    echo "Error: Attempt to delete everything in a protected system directory ($file) is blocked!" >&2
+    echo "$(date) - BLOCKED: rm * in $file" >> "$LOG_FILE"
+    exit 1
+fi
+
 # Check each file argument
 for file in "$@"; do
-    if is_blacklisted "$file"; then
+    if [[ is_blacklisted "$file" ]]; then
         echo "Error: Attempt to delete blacklisted file or directory: $file" >&2
         echo "$(date) - BLOCKED: $file" >> "$LOG_FILE"
         exit 1
