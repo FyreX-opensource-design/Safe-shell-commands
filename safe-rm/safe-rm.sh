@@ -45,9 +45,9 @@ if [[ "$#" -eq 1 && "$1" == "*" ]]; then
         exit 1
     fi
 fi
-path="$1"
-if [[ is_protected_directory "$file" && "$path" == /* ]]; then
-    echo "Error: Attempt to delete everything in a protected system directory ($file) is blocked!" >&2
+
+if [[ is_protected_directory "$file" && "$file" == /* ]]; then
+    echo "Error: Attempt to delete a protected system directory ($file) is blocked!" >&2
     echo "$(date) - BLOCKED: rm * in $file" >> "$LOG_FILE"
     exit 1
 fi
