@@ -40,13 +40,13 @@ is_protected_directory() {
 if [[ "$#" -eq 1 && "$1" == "*" ]]; then
     current_dir=$(pwd)
     if [[ is_protected_directory "$current_dir" ]]; then
-        echo "Error: Attempt to delete everything in a protected system directory ($current_dir) is blocked!" >&2
+        echo "Error: Attempt to delete everything while in a protected system directory ($current_dir) is blocked!" >&2
         echo "$(date) - BLOCKED: rm * in $current_dir" >> "$LOG_FILE"
         exit 1
     fi
 fi
-
-if [[ is_protected_directory "$file" ]]; then
+path="$1"
+if [[ is_protected_directory "$file" && "$path" == /* ]]; then
     echo "Error: Attempt to delete everything in a protected system directory ($file) is blocked!" >&2
     echo "$(date) - BLOCKED: rm * in $file" >> "$LOG_FILE"
     exit 1
